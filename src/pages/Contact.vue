@@ -24,7 +24,7 @@
           class="text-gray-200 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto"
         >
           Let’s discuss how we can help protect your people, property, and
-          business — with the clarity and care you deserve.
+          business with the clarity and care you deserve.
         </p>
         <div class="mt-8">
           <a
