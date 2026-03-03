@@ -19,7 +19,7 @@
         </p>
 
         <!-- Quick Stats -->
-        <div class="grid sm:grid-cols-3 gap-10 mt-16 text-center">
+        <div class="grid sm:grid-cols-2 gap-10 mt-16 text-center">
           <div>
             <h3 class="text-5xl font-extrabold text-blue-900">18+</h3>
             <p class="text-gray-500 text-sm mt-1 uppercase tracking-wide">
@@ -30,12 +30,6 @@
             <h3 class="text-5xl font-extrabold text-blue-900">24+</h3>
             <p class="text-gray-500 text-sm mt-1 uppercase tracking-wide">
               Years Experience
-            </p>
-          </div>
-          <div>
-            <h3 class="text-5xl font-extrabold text-blue-900">98%</h3>
-            <p class="text-gray-500 text-sm mt-1 uppercase tracking-wide">
-              Client Satisfaction
             </p>
           </div>
         </div>
