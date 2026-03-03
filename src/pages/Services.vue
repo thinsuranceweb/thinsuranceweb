@@ -18,7 +18,7 @@
           long-term growth.
         </p>
 
-        <!-- Quick Stats -->
+        <!-- Quick Stats test-->
         <div class="grid sm:grid-cols-2 gap-10 mt-16 text-center">
           <div>
             <h3 class="text-5xl font-extrabold text-blue-900">18+</h3>
