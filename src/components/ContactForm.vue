@@ -17,6 +17,7 @@
         method="POST"
         data-netlify="true"
         data-netlify-honeypot="bot-field"
+        data-netlify-recaptcha="true"
         class="bg-white shadow-xl rounded-2xl p-10 md:p-12 border border-gray-100 space-y-8"
         @submit="handleSubmit"
       >
