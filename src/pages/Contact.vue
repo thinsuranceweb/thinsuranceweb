@@ -71,6 +71,8 @@
             <p class="text-gray-600 text-lg font-medium">+251 911217247</p>
             <p class="text-gray-600 text-lg font-medium">+251 911204045</p>
             <p class="text-gray-600 text-lg font-medium">+251 911503700</p>
+            <p class="text-gray-600 text-lg font-medium">+251 911514236</p>
+            <p class="text-gray-600 text-lg font-medium">+251 911515007</p>
             <p class="text-gray-500 text-sm mt-1">Mon–Fri: 9:00 AM – 6:00 PM</p>
             <p class="text-gray-500 text-sm mt-1">
               Saturday: 10:00 AM – 4:00 PM
@@ -164,6 +166,12 @@
           </p>
 
           <ul class="space-y-4 text-gray-700">
+            <li class="flex items-center space-x-3">
+              <span
+                class="w-3 h-3 rounded-full bg-blue-400 inline-block"
+              ></span>
+              <p>Free consultation and expert advisory services.</p>
+            </li>
             <li class="flex items-center space-x-3">
               <span
                 class="w-3 h-3 rounded-full bg-blue-400 inline-block"

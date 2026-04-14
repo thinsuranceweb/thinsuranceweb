@@ -32,8 +32,7 @@
       <p class="text-lg md:text-xl text-gray-300 mb-10 leading-relaxed">
         Client-oriented insurance and risk-management solutions for Corporate,
         NGOs, individuals, family, conglomerate, and businesses — tailored to
-        your needs, backed by 24/7 support, transparent guidance, and local
-        expertise.
+        your needs, backed by 24/7 free consultation and advisory support.
       </p>
 
       <!-- CTA Buttons -->

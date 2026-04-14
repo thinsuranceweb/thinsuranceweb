@@ -37,4 +37,14 @@ export const libraryItems = [
     description:
       "Official amendment proclamation for insurance business regulation.",
   },
+   {
+    slug: "Basic Insurance types and cover Explained",
+    title:
+      "Basic Insurance types and cover Explained",
+    category: "Insurance Cover",
+    date: "July 21, 2025",
+    pdf: "/pdfs/Basic-Insurance-types-and-cover-Explained-edited.pdf",
+    description:
+      "Official explanation document for insurance types and cover.",
+  },
 ];
