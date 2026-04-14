@@ -142,17 +142,24 @@ const form = ref({
 const loading = ref(false);
 const success = ref(false);
 // test
-const handleSubmit = async (event) => {
+const handleSubmit = async () => {
   loading.value = true;
   success.value = false;
 
   try {
-    const formData = new FormData(event.target);
+    const formData = new URLSearchParams({
+      "form-name": "contact",
+      "bot-field": "",
+      name: form.value.name,
+      email: form.value.email,
+      phone: form.value.phone,
+      message: form.value.message,
+    });
 
     const res = await fetch("/", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams(formData).toString(),
+      body: formData.toString(),
     });
 
     if (!res.ok) throw new Error("Submission failed. Please try again.");
