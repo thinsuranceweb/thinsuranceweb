@@ -18,7 +18,9 @@
         data-netlify="true"
         class="bg-white shadow-xl rounded-2xl p-10 md:p-12 border border-gray-100 space-y-8"
       >
-        <input type="hidden" name="form-name" value="contact" />
+        <p style="display: none;">
+        <label>Don't fill this in: <input name="bot-field" /></label>
+      </p>
 
         <!-- Fields -->
         <div class="grid md:grid-cols-2 gap-8">
@@ -147,6 +149,7 @@ const handleSubmit = async () => {
   try {
     const formData = new URLSearchParams({
       "form-name": "contact",
+      "bot-field": "",
       ...form.value,
     });
 
