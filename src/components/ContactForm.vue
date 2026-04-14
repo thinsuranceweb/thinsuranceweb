@@ -12,21 +12,16 @@
       </div>
 
       <!-- Form -->
-       <form
+      <form
         name="contact"
         method="POST"
         data-netlify="true"
-        data-netlify-honeypot="bot-field"
-        data-netlify-recaptcha="true"
-        class="bg-white shadow-xl rounded-2xl p-10 md:p-12 border border-gray-100 space-y-8"
+        class="..."
         @submit="handleSubmit"
       >
         <input type="hidden" name="form-name" value="contact" />
 
-        <!-- Honeypot -->
-        <p class="hidden">
-          <label>Don't fill this out: <input name="bot-field" v-model="form['bot-field']" /></label>
-        </p>
+      
 
         <!-- Status Messages -->
         <div v-if="status === 'error'" class="text-red-600 font-semibold text-center">
@@ -103,8 +98,6 @@
           </label>
         </div>
 
-        <div data-netlify-recaptcha="true"></div>
-
         <!-- Submit -->
         <div class="text-center pt-4">
           <button
@@ -131,17 +124,7 @@ const form = reactive({
   phone: "",
   email: "",
   message: "",
-  "bot-field": "",
 });
-
-const status = ref("idle"); // idle | sending | success | error
-const errorMsg = ref("");
-
-function encode(data) {
-  return Object.keys(data)
-    .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key] ?? ""))
-    .join("&");
-}
 
 async function handleSubmit(e) {
   e.preventDefault();
@@ -149,17 +132,12 @@ async function handleSubmit(e) {
   errorMsg.value = "";
 
   try {
-    // Get reCAPTCHA token Netlify injected
-    const recaptchaResponse = document.querySelector('[name="g-recaptcha-response"]')?.value;
-
-    if (!recaptchaResponse) {
-      throw new Error("Please complete the reCAPTCHA challenge.");
-    }
-
     const body = encode({
       "form-name": formName,
-      "g-recaptcha-response": recaptchaResponse,
-      ...form,
+      name: form.name,
+      phone: form.phone,
+      email: form.email,
+      message: form.message,
     });
 
     const res = await fetch("/", {
@@ -175,7 +153,6 @@ async function handleSubmit(e) {
     form.phone = "";
     form.email = "";
     form.message = "";
-    form["bot-field"] = "";
 
     setTimeout(() => {
       status.value = "idle";
@@ -184,7 +161,7 @@ async function handleSubmit(e) {
     status.value = "error";
     errorMsg.value = err?.message || "Something went wrong. Please try again.";
   }
-}
+} 
 </script>
 
 <style scoped>
