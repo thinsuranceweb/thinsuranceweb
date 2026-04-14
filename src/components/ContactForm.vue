@@ -16,6 +16,7 @@
         @submit.prevent="handleSubmit"
         name="contact"
         data-netlify="true"
+        data-netlify-honeypot="bot-field"
         class="bg-white shadow-xl rounded-2xl p-10 md:p-12 border border-gray-100 space-y-8"
       >
     
@@ -143,25 +144,33 @@ const success = ref(false);
 
 const handleSubmit = async () => {
   loading.value = true;
+  success.value = false;
+
   try {
     const formData = new URLSearchParams({
       "form-name": "contact",
       "bot-field": "",
+      subject: `New enquiry from ${form.value.name || "website"}`,
       ...form.value,
     });
 
-    const response = await fetch("/", {
+    const res = await fetch("/", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: formData.toString(),
     });
 
-    if (!response.ok) throw new Error("Submission failed");
+    if (!res.ok) throw new Error("Submission failed. Please try again.");
 
     success.value = true;
     form.value = { name: "", email: "", phone: "", message: "" };
-  } catch (error) {
-    console.error("Submission failed:", error);
+
+    setTimeout(() => {
+      success.value = false;
+    }, 5000);
+
+  } catch (err) {
+    console.error(err?.message || "Something went wrong. Please try again.");
   } finally {
     loading.value = false;
   }
