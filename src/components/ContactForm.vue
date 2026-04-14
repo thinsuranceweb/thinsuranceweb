@@ -16,12 +16,16 @@
         name="contact"
         method="POST"
         data-netlify="true"
+        data-netlify-honeypot="bot-field"
         class="bg-white shadow-xl rounded-2xl p-10 md:p-12 border border-gray-100 space-y-8"
         @submit="handleSubmit"
       >
         <input type="hidden" name="form-name" value="contact" />
 
-      
+        <!-- Honeypot -->
+        <p class="hidden">
+          <label>Don't fill this out: <input name="bot-field" v-model="form['bot-field']" /></label>
+        </p>
 
         <!-- Status Messages -->
         <div v-if="status === 'error'" class="text-red-600 font-semibold text-center">
@@ -124,6 +128,7 @@ const form = reactive({
   phone: "",
   email: "",
   message: "",
+  "bot-field": "",
 });
 
 const status = ref("idle"); // idle | sending | success | error
@@ -159,6 +164,7 @@ async function handleSubmit(e) {
     form.phone = "";
     form.email = "";
     form.message = "";
+    form["bot-field"] = "";
 
     setTimeout(() => {
       status.value = "idle";
