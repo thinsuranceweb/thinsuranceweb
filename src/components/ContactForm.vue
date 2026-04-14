@@ -23,6 +23,8 @@
         <!-- Fields -->
         <div class="grid md:grid-cols-2 gap-8">
           <!-- Full Name -->
+          <input type="hidden" name="bot-field" />
+
           <div class="relative">
             <input
               v-model="form.name"
@@ -143,8 +145,19 @@ const success = ref(false);
 const handleSubmit = async () => {
   loading.value = true;
   try {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log("Form submitted:", form.value);
+    const formData = new URLSearchParams({
+      "form-name": "contact",
+      ...form.value,
+    });
+
+    const response = await fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: formData.toString(),
+    });
+
+    if (!response.ok) throw new Error("Submission failed");
+
     success.value = true;
     form.value = { name: "", email: "", phone: "", message: "" };
   } catch (error) {
