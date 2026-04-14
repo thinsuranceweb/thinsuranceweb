@@ -181,19 +181,11 @@ section {
   animation: fadeIn 0.8s ease-in-out;
 }
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* Smooth underline animation */
-input,
-textarea {
+input, textarea {
   background: transparent;
 }
 input:focus,
@@ -201,8 +193,15 @@ textarea:focus {
   box-shadow: 0 1px 0 0 #1d4ed8;
 }
 
-/* For Safari label positioning */
 label {
   pointer-events: none;
+}
+
+/* Float label up when input has a value */
+input:not(:placeholder-shown) ~ label,
+textarea:not(:placeholder-shown) ~ label {
+  top: -1rem;
+  font-size: 0.75rem;
+  color: #1d4ed8;
 }
 </style>
