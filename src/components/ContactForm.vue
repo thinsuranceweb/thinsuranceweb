@@ -103,6 +103,8 @@
           </label>
         </div>
 
+        <div data-netlify-recaptcha="true"></div>
+
         <!-- Submit -->
         <div class="text-center pt-4">
           <button
@@ -147,8 +149,16 @@ async function handleSubmit(e) {
   errorMsg.value = "";
 
   try {
+    // Get reCAPTCHA token Netlify injected
+    const recaptchaResponse = document.querySelector('[name="g-recaptcha-response"]')?.value;
+
+    if (!recaptchaResponse) {
+      throw new Error("Please complete the reCAPTCHA challenge.");
+    }
+
     const body = encode({
       "form-name": formName,
+      "g-recaptcha-response": recaptchaResponse,
       ...form,
     });
 
@@ -158,7 +168,7 @@ async function handleSubmit(e) {
       body,
     });
 
-    if (!res.ok) throw new Error("Submission failed. Please try again.");
+    if (!res.ok && !res.redirected) throw new Error("Submission failed. Please try again.");
 
     status.value = "success";
     form.name = "";
@@ -174,7 +184,7 @@ async function handleSubmit(e) {
     status.value = "error";
     errorMsg.value = err?.message || "Something went wrong. Please try again.";
   }
-} 
+}
 </script>
 
 <style scoped>
