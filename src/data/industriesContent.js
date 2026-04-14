@@ -11,6 +11,7 @@ import {
   ChartBarIcon,
   CheckCircleIcon,
   LifebuoyIcon,
+  CubeIcon,
 } from "@heroicons/vue/24/outline";
 
 export const industries = [
@@ -300,6 +301,107 @@ export const industries = [
     ],
     faqs: [],
   },
+
+  {
+    slug: "construction",
+    title: "Construction",
+    subtitle: "Project risk, site liability, and asset protection.",
+    icon: BuildingOffice2Icon,
+    heroVideo: "/4430419-uhd_3840_2160_24fps.mp4",
+    heroImage: "/industries/cons.jpg",
+    intro:
+      "Construction organisations face physical and financial risks at every stage of a project. We build programmes that protect contractors, developers, and project owners from the ground up.",
+    quickStats: [
+      { label: "Common exposures", value: "Site damage, third-party injury, design error" },
+      { label: "Typical assets", value: "Plant, materials, works-in-progress" },
+      { label: "Priority outcome", value: "Project completion, uninterrupted" },
+    ],
+    riskAreas: [
+      {
+        title: "Physical damage",
+        icon: ExclamationTriangleIcon,
+        points: ["Damage to works-in-progress", "Loss or theft of materials on site", "Breakdown or damage to plant and machinery"],
+      },
+      {
+        title: "Third-party liability",
+        icon: ShieldCheckIcon,
+        points: ["Injury to members of the public", "Damage to neighbouring property", "On-site contractor incidents"],
+      },
+      {
+        title: "Design and performance",
+        icon: DocumentTextIcon,
+        points: ["Architectural or engineering errors", "Performance bond obligations", "Contract completion guarantees"],
+      },
+    ],
+    solutions: [
+      { title: "Contractors All Risks (CAR)", icon: ExclamationTriangleIcon, desc: "Protection for works-in-progress, materials, and construction machinery against physical damage." },
+      { title: "Public Liability", icon: ShieldCheckIcon, desc: "Coverage for third-party injuries or property damage on or around the site." },
+      { title: "Professional Indemnity", icon: DocumentTextIcon, desc: "Protection against claims arising from design errors or architectural mistakes." },
+      { title: "Performance Bonds", icon: CheckCircleIcon, desc: "Guarantees that the project will be completed in accordance with contract terms." },
+      { title: "Plant & Equipment", icon: Cog6ToothIcon, desc: "Coverage for heavy machinery — cranes, excavators, and scaffolding — against theft or breakdown." },
+    ],
+    approach: [
+      { title: "Discover", icon: LifebuoyIcon, text: "Understand project scope, timelines, contractor structures, and site-specific exposures." },
+      { title: "Assess", icon: ChartBarIcon, text: "Map physical, liability, and contractual risks to define appropriate limits and deductibles." },
+      { title: "Design", icon: DocumentTextIcon, text: "Build a programme that covers the full project lifecycle without gaps." },
+      { title: "Support", icon: CheckCircleIcon, text: "Ongoing service for certificates, contract compliance, and claims guidance." },
+    ],
+    faqs: [
+      { q: "Can we cover multiple projects under a single programme?", a: "Yes — annual or project-specific structures can be arranged to cover multiple sites and contracts efficiently." },
+    ],
+  },
+
+  {
+    slug: "mining",
+    title: "Mining",
+    subtitle: "High-value asset exposure, environmental liability, and workforce risk.",
+    icon: CubeIcon,
+    heroVideo: "/13223553_3840_2160_30fps.mp4",
+    heroImage: "/industries/mining.jpg",
+    intro:
+      "Mining operations contend with extreme environmental conditions,complex asset profiles, and significant workforce risk. We design programmes for both open-cast and underground operations.",
+    quickStats: [
+      { label: "Common exposures", value: "Equipment failure, environmental damage, transit loss" },
+      { label: "Typical assets", value: "Processing plants, machinery, minerals in transit" },
+      { label: "Priority outcome", value: "Operational continuity and liability protection" },
+    ],
+    riskAreas: [
+      {
+        title: "Asset and operational risk",
+        icon: Cog6ToothIcon,
+        points: ["Damage to processing plants", "Breakdown of drills, crushers, and conveyors", "Revenue loss from unplanned operational halts"],
+      },
+      {
+        title: "Environmental liability",
+        icon: ExclamationTriangleIcon,
+        points: ["Pollution arising from mining activity", "Ecological damage to surrounding areas", "Regulatory and remediation costs"],
+      },
+      {
+        title: "Workforce and transit",
+        icon: ShieldCheckIcon,
+        points: ["High-risk manual labour in remote locations", "Workers' compensation for underground operations", "Loss of high-value minerals during transit"],
+      },
+    ],
+    solutions: [
+      { title: "Property & Business Interruption", icon: DocumentTextIcon, desc: "Coverage for processing plants and loss of revenue resulting from operational halts." },
+      { title: "Machinery Breakdown", icon: Cog6ToothIcon, desc: "Protection for specialist equipment — drills, crushers, and conveyor systems — where failure is critical." },
+      { title: "Environmental Liability", icon: ExclamationTriangleIcon, desc: "Protection against claims arising from pollution or ecological damage caused by mining activity." },
+      { title: "Transit / Marine Cargo", icon: TruckIcon, desc: "Coverage for the transportation of high-value minerals and ores from site to port." },
+      { title: "Workers' Compensation", icon: ShieldCheckIcon, desc: "Enhanced coverage for high-risk labour in remote or hazardous environments." },
+    ],
+    approach: [
+      { title: "Discover", icon: LifebuoyIcon, text: "Understand operational structure, asset values, workforce composition, and environmental profile." },
+      { title: "Assess", icon: ChartBarIcon, text: "Identify key loss scenarios across property, liability, and personnel to set appropriate limits." },
+      { title: "Design", icon: DocumentTextIcon, text: "Construct a programme that addresses the full risk landscape without coverage gaps." },
+      { title: "Support", icon: CheckCircleIcon, text: "Ongoing service across certificates, compliance documentation, and claims management." },
+    ],
+    faqs: [
+      { q: "Can environmental liability be structured separately from property cover?", a: "Yes — environmental liability can be written as a standalone policy or integrated into a broader programme, depending on your regulatory obligations and risk appetite." },
+    ],
+  },
+
+
+
 ];
 
 export const getIndustryBySlug = (slug) => industries.find((i) => i.slug === slug);
