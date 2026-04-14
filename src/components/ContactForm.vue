@@ -142,7 +142,7 @@ const form = ref({
 const loading = ref(false);
 const success = ref(false);
 
-const handleSubmit = async () => {
+const handleSubmit = async (e) => {
   loading.value = true;
   success.value = false;
 
@@ -150,8 +150,10 @@ const handleSubmit = async () => {
     const formData = new URLSearchParams({
       "form-name": "contact",
       "bot-field": "",
-      subject: `New enquiry from ${form.value.name || "website"}`,
-      ...form.value,
+      name: form.value.name,
+      email: form.value.email,
+      phone: form.value.phone,
+      message: form.value.message,
     });
 
     const res = await fetch("/", {
