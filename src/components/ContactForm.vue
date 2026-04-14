@@ -12,15 +12,15 @@
       </div>
 
       <!-- Form -->
-       <form
-        name="contact"
-        method="POST"
-        data-netlify="true"
-        data-netlify-honeypot="bot-field"
-        class="bg-white shadow-xl rounded-2xl p-10 md:p-12 border border-gray-100 space-y-8"
-        @submit="handleSubmit"
-      >
-        <input type="hidden" name="form-name" :value="formName" />
+        <form
+          name="contact"
+          method="POST"
+          action="/"
+          data-netlify="true"
+          data-netlify-honeypot="bot-field"
+          @submit="handleSubmit"
+        >
+        <input type="hidden" name="form-name" value="contact" />
 
         <!-- Honeypot -->
         <p class="hidden">
