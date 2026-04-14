@@ -12,18 +12,32 @@
       </div>
 
       <!-- Form -->
-      <form
-        @submit.prevent="handleSubmit"
+       <form
         name="contact"
+        method="POST"
         data-netlify="true"
+        data-netlify-honeypot="bot-field"
         class="bg-white shadow-xl rounded-2xl p-10 md:p-12 border border-gray-100 space-y-8"
+        @submit="handleSubmit"
       >
-    
+        <input type="hidden" name="form-name" :value="formName" />
+
+        <!-- Honeypot -->
+        <p class="hidden">
+          <label>Don't fill this out: <input name="bot-field" v-model="form['bot-field']" /></label>
+        </p>
+
+        <!-- Status Messages -->
+        <div v-if="status === 'error'" class="text-red-600 font-semibold text-center">
+          {{ errorMsg }}
+        </div>
+        <div v-else-if="status === 'success'" class="text-green-600 font-semibold text-center">
+          ✅ Thank you! Your message has been sent successfully.
+        </div>
+
         <!-- Fields -->
         <div class="grid md:grid-cols-2 gap-8">
           <!-- Full Name -->
-          <input type="hidden" name="bot-field" />
-
           <div class="relative">
             <input
               v-model="form.name"
@@ -34,10 +48,7 @@
               placeholder=" "
               class="peer w-full border-b-2 border-gray-300 text-slate-800 placeholder-transparent focus:border-blue-700 focus:outline-none py-3 transition-all"
             />
-            <label
-              for="name"
-              class="absolute left-0 top-3 text-gray-500 text-base transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-base peer-focus:-top-4 peer-focus:text-sm peer-focus:text-blue-700"
-            >
+            <label for="name" class="absolute left-0 top-3 text-gray-500 text-base transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-base peer-focus:-top-4 peer-focus:text-sm peer-focus:text-blue-700">
               Full Name
             </label>
           </div>
@@ -53,10 +64,7 @@
               placeholder=" "
               class="peer w-full border-b-2 border-gray-300 text-slate-800 placeholder-transparent focus:border-blue-700 focus:outline-none py-3 transition-all"
             />
-            <label
-              for="email"
-              class="absolute left-0 top-3 text-gray-500 text-base transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-base peer-focus:-top-4 peer-focus:text-sm peer-focus:text-blue-700"
-            >
+            <label for="email" class="absolute left-0 top-3 text-gray-500 text-base transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-base peer-focus:-top-4 peer-focus:text-sm peer-focus:text-blue-700">
               Email Address
             </label>
           </div>
@@ -67,16 +75,13 @@
           <input
             v-model="form.phone"
             type="tel"
-            required
             id="phone"
             name="phone"
+            required
             placeholder=" "
             class="peer w-full border-b-2 border-gray-300 text-slate-800 placeholder-transparent focus:border-blue-700 focus:outline-none py-3 transition-all"
           />
-          <label
-            for="phone"
-            class="absolute left-0 top-3 text-gray-500 text-base transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-base peer-focus:-top-4 peer-focus:text-sm peer-focus:text-blue-700"
-          >
+          <label for="phone" class="absolute left-0 top-3 text-gray-500 text-base transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-base peer-focus:-top-4 peer-focus:text-sm peer-focus:text-blue-700">
             Phone Number
           </label>
         </div>
@@ -92,10 +97,7 @@
             placeholder=" "
             class="peer w-full border-b-2 border-gray-300 text-slate-800 placeholder-transparent focus:border-blue-700 focus:outline-none py-3 transition-all resize-none"
           ></textarea>
-          <label
-            for="message"
-            class="absolute left-0 top-3 text-gray-500 text-base transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-base peer-focus:-top-4 peer-focus:text-sm peer-focus:text-blue-700"
-          >
+          <label for="message" class="absolute left-0 top-3 text-gray-500 text-base transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-base peer-focus:-top-4 peer-focus:text-sm peer-focus:text-blue-700">
             Your Message
           </label>
         </div>
@@ -104,25 +106,12 @@
         <div class="text-center pt-4">
           <button
             type="submit"
-            :disabled="loading"
+            :disabled="status === 'sending'"
             class="relative inline-flex items-center justify-center px-10 py-3 font-semibold text-white bg-gradient-to-r from-blue-900 to-blue-700 rounded-lg shadow-md hover:shadow-lg hover:from-blue-800 hover:to-blue-600 transition disabled:opacity-60"
           >
-            <span v-if="!loading">Send Message</span>
+            <span v-if="status !== 'sending'">Send Message</span>
             <span v-else>Sending...</span>
           </button>
-
-          <transition
-            enter-active-class="transition duration-300 ease-out"
-            enter-from-class="opacity-0 -translate-y-2"
-            enter-to-class="opacity-100 translate-y-0"
-          >
-            <p
-              v-if="success"
-              class="text-green-600 font-semibold text-center mt-6"
-            >
-              ✅ Thank you! Your message has been sent successfully.
-            </p>
-          </transition>
         </div>
       </form>
     </div>
@@ -130,51 +119,61 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { reactive, ref } from "vue";
 
-const form = ref({
+const formName = "contact";
+
+const form = reactive({
   name: "",
-  email: "",
   phone: "",
+  email: "",
   message: "",
+  "bot-field": "",
 });
-const loading = ref(false);
-const success = ref(false);
-// test
-const handleSubmit = async () => {
-  loading.value = true;
-  success.value = false;
+
+const status = ref("idle"); // idle | sending | success | error
+const errorMsg = ref("");
+
+function encode(data) {
+  return Object.keys(data)
+    .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key] ?? ""))
+    .join("&");
+}
+
+async function handleSubmit(e) {
+  e.preventDefault();
+  status.value = "sending";
+  errorMsg.value = "";
 
   try {
-    const formData = new URLSearchParams({
-      "form-name": "contact",
-      name: form.value.name,
-      email: form.value.email,
-      phone: form.value.phone,
-      message: form.value.message,
+    const body = encode({
+      "form-name": formName,
+      ...form,
     });
 
     const res = await fetch("/", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: formData.toString(),
+      body,
     });
 
     if (!res.ok) throw new Error("Submission failed. Please try again.");
 
-    success.value = true;
-    form.value = { name: "", email: "", phone: "", message: "" };
+    status.value = "success";
+    form.name = "";
+    form.phone = "";
+    form.email = "";
+    form.message = "";
+    form["bot-field"] = "";
 
     setTimeout(() => {
-      success.value = false;
+      status.value = "idle";
     }, 5000);
-
   } catch (err) {
-    console.error(err?.message || "Something went wrong. Please try again.");
-  } finally {
-    loading.value = false;
+    status.value = "error";
+    errorMsg.value = err?.message || "Something went wrong. Please try again.";
   }
-};
+} 
 </script>
 
 <style scoped>
