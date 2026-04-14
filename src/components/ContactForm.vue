@@ -148,7 +148,6 @@ const handleSubmit = async () => {
   try {
     const formData = new URLSearchParams({
       "form-name": "contact",
-      "bot-field": "",
       name: form.value.name,
       email: form.value.email,
       phone: form.value.phone,
