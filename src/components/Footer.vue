@@ -77,6 +77,7 @@
             info@thinsurancebrokers.com
           </li>
           <li>
+            <!-- test -->
             <span class="font-semibold text-blue-400">Phone:</span>
             <div class="flex flex-col">
               <span>+251 911217247</span>
