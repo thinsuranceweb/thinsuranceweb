@@ -16,6 +16,7 @@
         name="contact_form"
         method="POST"
         data-netlify="true"
+        data-netlify-recaptcha="true"
         class="space-y-8"
         @submit="handleSubmit"
       >
@@ -98,6 +99,8 @@
           </label>
         </div>
 
+        <div data-netlify-recaptcha="true"></div>
+
         <!-- Submit -->
         <div class="text-center pt-4">
           <button
@@ -117,7 +120,6 @@
 <script setup>
 import { reactive, ref } from "vue";
 
-const formName = "contact_form";
 const status = ref("idle");
 const errorMsg = ref("");
 
@@ -128,8 +130,8 @@ const form = reactive({
   message: "",
 });
 
-function encode(data) {
-  return new URLSearchParams(data).toString();
+function encode(formElement) {
+  return new URLSearchParams(new FormData(formElement)).toString();
 }
 
 async function handleSubmit(e) {
@@ -138,13 +140,7 @@ async function handleSubmit(e) {
   errorMsg.value = "";
 
   try {
-    const body = encode({
-      "form-name": formName,
-      name: form.name,
-      phone: form.phone,
-      email: form.email,
-      message: form.message,
-    });
+    const body = encode(e.target);
 
     const res = await fetch("/", {
       method: "POST",
