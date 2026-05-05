@@ -16,7 +16,7 @@
         name="contact"
         method="POST"
         data-netlify="true"
-        class="..."
+        class="space-y-8"
         @submit="handleSubmit"
       >
         <input type="hidden" name="form-name" value="contact" />
@@ -28,7 +28,7 @@
           {{ errorMsg }}
         </div>
         <div v-else-if="status === 'success'" class="text-green-600 font-semibold text-center">
-          ✅ Thank you! Your message has been sent successfully.
+          Thank you! Your message has been sent successfully.
         </div>
 
         <!-- Fields -->
@@ -118,6 +118,8 @@
 import { reactive, ref } from "vue";
 
 const formName = "contact";
+const status = ref("idle");
+const errorMsg = ref("");
 
 const form = reactive({
   name: "",
@@ -125,6 +127,10 @@ const form = reactive({
   email: "",
   message: "",
 });
+
+function encode(data) {
+  return new URLSearchParams(data).toString();
+}
 
 async function handleSubmit(e) {
   e.preventDefault();
