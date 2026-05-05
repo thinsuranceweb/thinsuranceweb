@@ -13,13 +13,13 @@
 
       <!-- Form -->
       <form
-        name="contact"
+        name="contact_form"
         method="POST"
         data-netlify="true"
         class="space-y-8"
         @submit="handleSubmit"
       >
-        <input type="hidden" name="form-name" value="contact" />
+        <input type="hidden" name="form-name" value="contact_form" />
 
       
 
@@ -117,7 +117,7 @@
 <script setup>
 import { reactive, ref } from "vue";
 
-const formName = "contact";
+const formName = "contact_form";
 const status = ref("idle");
 const errorMsg = ref("");
 
