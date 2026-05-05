@@ -9,13 +9,13 @@
     <title>th-insurance</title>
   </head>
   <body>
-<form name="contact_form" method="POST" data-netlify="true" data-netlify-recaptcha="true" hidden>
-  <input type="hidden" name="form-name" value="contact_form" />
+<form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="contact" />
+  <input name="bot-field" />
   <input type="text" name="name" />
   <input type="tel" name="phone" />
   <input type="email" name="email" />
   <textarea name="message"></textarea>
-  <textarea name="g-recaptcha-response"></textarea>
 </form>
 
     <div id="app"></div>

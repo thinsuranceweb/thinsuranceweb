@@ -13,16 +13,21 @@
 
       <!-- Form -->
       <form
-        name="contact_form"
+        name="contact"
         method="POST"
+        action="/"
         data-netlify="true"
-        data-netlify-recaptcha="true"
+        netlify-honeypot="bot-field"
         class="space-y-8"
-        @submit="handleSubmit"
+        @submit.prevent="handleSubmit"
       >
-        <input type="hidden" name="form-name" value="contact_form" />
-
-      
+        <input type="hidden" name="form-name" value="contact" />
+        <p class="hidden">
+          <label>
+            Don't fill this out if you're human:
+            <input v-model="form.botField" name="bot-field" />
+          </label>
+        </p>
 
         <!-- Status Messages -->
         <div v-if="status === 'error'" class="text-red-600 font-semibold text-center">
@@ -99,11 +104,6 @@
           </label>
         </div>
 
-        <div v-if="recaptchaSiteKey" ref="recaptchaElement"></div>
-        <div v-else class="text-sm text-red-600">
-          reCAPTCHA is not configured yet.
-        </div>
-
         <!-- Submit -->
         <div class="text-center pt-4">
           <button
@@ -121,80 +121,36 @@
 </template>
 
 <script setup>
-import { onMounted, reactive, ref } from "vue";
+import { reactive, ref } from "vue";
 
 const status = ref("idle");
 const errorMsg = ref("");
-const recaptchaElement = ref(null);
-const recaptchaWidgetId = ref(null);
-const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
 
 const form = reactive({
   name: "",
   phone: "",
   email: "",
   message: "",
+  botField: "",
 });
 
-function encode(formElement) {
-  return new URLSearchParams(new FormData(formElement)).toString();
+function encode(data) {
+  return new URLSearchParams(data).toString();
 }
-
-function loadRecaptchaScript() {
-  return new Promise((resolve, reject) => {
-    if (window.grecaptcha) {
-      resolve(window.grecaptcha);
-      return;
-    }
-
-    const existingScript = document.querySelector('script[src*="google.com/recaptcha/api.js"]');
-    if (existingScript) {
-      existingScript.addEventListener("load", () => resolve(window.grecaptcha), { once: true });
-      existingScript.addEventListener("error", reject, { once: true });
-      return;
-    }
-
-    const script = document.createElement("script");
-    script.src = "https://www.google.com/recaptcha/api.js?render=explicit";
-    script.async = true;
-    script.defer = true;
-    script.onload = () => resolve(window.grecaptcha);
-    script.onerror = reject;
-    document.head.appendChild(script);
-  });
-}
-
-onMounted(async () => {
-  if (!recaptchaSiteKey || !recaptchaElement.value) return;
-
-  try {
-    const grecaptcha = await loadRecaptchaScript();
-    grecaptcha.ready(() => {
-      recaptchaWidgetId.value = grecaptcha.render(recaptchaElement.value, {
-        sitekey: recaptchaSiteKey,
-      });
-    });
-  } catch {
-    errorMsg.value = "reCAPTCHA could not be loaded. Please refresh and try again.";
-    status.value = "error";
-  }
-});
 
 async function handleSubmit(e) {
-  e.preventDefault();
   status.value = "sending";
   errorMsg.value = "";
 
   try {
-    if (!recaptchaSiteKey || !window.grecaptcha || recaptchaWidgetId.value === null) {
-      throw new Error("reCAPTCHA is not ready yet. Please refresh and try again.");
-    }
-
-    if (!window.grecaptcha.getResponse(recaptchaWidgetId.value)) {
-      throw new Error("Please complete the reCAPTCHA before sending.");
-    }
-
-    const body = encode(e.target);
+    const body = encode({
+      "form-name": "contact",
+      "bot-field": form.botField,
+      name: form.name,
+      phone: form.phone,
+      email: form.email,
+      message: form.message,
+    });
 
     const res = await fetch("/", {
       method: "POST",
@@ -209,7 +165,7 @@ async function handleSubmit(e) {
     form.phone = "";
     form.email = "";
     form.message = "";
-    window.grecaptcha.reset(recaptchaWidgetId.value);
+    form.botField = "";
 
     setTimeout(() => {
       status.value = "idle";
